@@ -61,40 +61,30 @@ void adc(const T& x){
 #define FastIN {ios::sync_with_stdio(false); cin.tie(NULL);}
 
 void asikM(){
-    ll n,q;
+    ll n,q,mx=-1;
     cin>>n>>q;
-    vector<ll>v(n,0),op(n,0);
-    vector<pi>l;
+    vector<ll>v(n,0);
+    map<ll,ll>l;
+    // forni v[i]+=i+1;
     // flx(v)
     while(q--){
         ll i,p;
         cin>>i>>p;
-        v[i-1]+=p;
-        op[i-1]=1;
-        l.pbk({i-1,p});
+        v[i-1]+=p+i;
+        if(i<n && v[i]<v[i-1]){
+            if(v[i]==i) v[i]=v[i-1]+1+i;
+            else v[i]=l[i]+p+1+i;
+        }
+        mx=max(i-1,mx);
+        l[i-1]=p;
         // flx(v)
     }
-    // elc
-    flx(v)
-    // fl(i,0,in+1,1){
-    //     if(i==0) v[i]+=i+1;
-    //     else{
-    //         if(v[i]<=v[i-1]){
-    //             v[i]+=i+1;
-    //         }
-    //     }
-    // }
-    // flx(v)
-    // elc
-    // flx(v)
-    if(v[0]!=0) v[0]++;
     fl(i,1,n,1){
-        if(v[i]==0) v[i]=v[i-1]+1;
-        else v[i]+=v[i-1]+1;
+        if(v[i]<=v[i-1]) v[i]+=abs(v[i-1]-v[i])+1;
     }
-    flx(v)
+    // flx(v)
     acp(l,x,y) v[x]-=y;
-    flx(v)
+    // flx(v)
     co(accumulate(all(v),0LL))
 }
 
